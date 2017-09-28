@@ -20,9 +20,11 @@ let main args =
             match args |> Array.toList with
             | clientPath:: _  when Directory.Exists clientPath -> clientPath
             | _ -> 
+                // did we start from server folder?
                 let devPath = Path.Combine("..","Client")
                 if Directory.Exists devPath then devPath 
                 else
+                    // maybe we are in root of project?
                     let devPath = Path.Combine("src","Client")
                     if Directory.Exists devPath then devPath 
                     else @"./client"
