@@ -21,10 +21,15 @@ let main args =
             | clientPath:: _  when Directory.Exists clientPath -> clientPath
             | _ -> 
                 let devPath = Path.Combine("..","Client")
-                if Directory.Exists devPath then devPath else
-                @"./client"
+                if Directory.Exists devPath then devPath 
+                else
+                    let devPath = Path.Combine("src","Client")
+                    if Directory.Exists devPath then devPath 
+                    else @"./client"
+            |> Path.GetFullPath
 
-        WebServer.start (Path.GetFullPath clientPath) (getPortsOrDefault 8085us)
+        let port = getPortsOrDefault 8085us
+        WebServer.start clientPath port
         0
     with
     | exn ->
